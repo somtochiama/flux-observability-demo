@@ -95,3 +95,43 @@ flux create alert-provider slack --type slack --secret-ref slack-url --export \
 
 TODOS:
 - export cluster name and GCP service account name
+
+- Webhook receivers: Get Flux to reconcile immediately we do a git push
+
+Create a LoadBalancer service:
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: receiver
+  namespace: flux-system
+spec:
+  type: LoadBalancer
+  selector:
+    app: notification-controller
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 9292
+```
+
+Generate random token for webhook receiver:
+```sh
+TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
+echo $TOKEN
+
+kubectl -n flux-system create secret generic webhook-token \	
+--from-literal=token=$TOKEN --dry-run=client -oyaml >> ./clusters/my-clusters/webhook/secret.yaml
+```
+
+Create webhook receiver
+```
+flux create receiver github-receiver \
+    --type github \
+    --event ping \
+    --event push \
+    --secret-ref webhook-token \
+    --resource GitRepository/flux-system \
+    --export >>  ./clusters/my-clusters/webhook/receiver.yaml
+```
