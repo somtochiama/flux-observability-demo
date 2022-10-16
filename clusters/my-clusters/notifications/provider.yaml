@@ -7,5 +7,5 @@ metadata:
 spec:
   secretRef:
     name: slack-url
-  # type: slack
+  type: slack
 
