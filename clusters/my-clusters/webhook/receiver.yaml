@@ -8,8 +8,7 @@ spec:
   events:
   - ping
   - push
-  - star.created
-  # - star.deleted
+  - star
   resources:
   - kind: GitRepository
     name: flux-system
