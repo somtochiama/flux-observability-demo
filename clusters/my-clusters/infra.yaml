@@ -44,7 +44,7 @@ spec:
   decryption:
     provider: sops
   interval: 10m0s
-  path: ./infra/tailscalexx
+  path: ./infra/tailscale
   prune: true
   sourceRef:
     kind: GitRepository
