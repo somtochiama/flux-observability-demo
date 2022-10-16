@@ -32,7 +32,7 @@ spec:
       regex: false
       value: page
     - name: alertname
-      matchType: "~="
+      matchType: "=~"
       value: ReconciliationFailure
   receivers:
   - name: 'slack'
