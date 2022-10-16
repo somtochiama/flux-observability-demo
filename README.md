@@ -126,7 +126,7 @@ kubectl -n flux-system create secret generic webhook-token \
 ```
 
 Create webhook receiver
-```
+```sh
 flux create receiver github-receiver \
     --type github \
     --event ping \
@@ -140,3 +140,24 @@ flux create receiver github-receiver \
 Navigate to repository settings and put in payload url + token
 Payload URL - `https://<ServiceURL>/hook/bed6d00b5555b1603e1f59b94d7fdbca58089cb5663633fb83f2815dc626d92b
 Token - `echo $TOKEN`
+
+## Github Commit Status
+
+Create a Github PAT with repo:status permission
+
+```sh
+export GH_PAT_TOKEN=<TOKEN>
+
+kubectl -n flux-system create secret generic github-token \            
+--from-literal=token=$GH_PAT_TOKEN --dry-run=client -oyaml > ./clusters/my-clusters/notifications/token.yaml
+```
+
+Create Provider
+```
+flux create alert commit-status --provider-ref github \
+--event-source "Kustomization/flux-system" \
+--export > ./clusters/my-clusters/notifications/commitstatus.yaml
+
+flux create alert-provider github --type github --secret-ref github-token --export \
+>> ./clusters/my-clusters/notifications/commitstatus.yaml
+```
