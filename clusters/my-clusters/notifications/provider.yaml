@@ -6,6 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   secretRef:
-    name: provider-url
+    name: slack-url
   type: slack
 
