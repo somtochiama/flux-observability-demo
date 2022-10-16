@@ -135,3 +135,8 @@ flux create receiver github-receiver \
     --resource GitRepository/flux-system \
     --export >>  ./clusters/my-clusters/webhook/receiver.yaml
 ```
+** Commit and push
+
+Navigate to repository settings and put in payload url + token
+Payload URL - `https://<ServiceURL>/hook/bed6d00b5555b1603e1f59b94d7fdbca58089cb5663633fb83f2815dc626d92b
+Token - `echo $TOKEN`
