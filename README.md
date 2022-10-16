@@ -42,10 +42,15 @@ patchesStrategicMerge:
     decryption:
       provider: sops
 ```
+Push changes 
+```sh
+gc -m "configure ks" && git push
+```
 
 - Create Slack Webhook URL and a secret containing URL
 Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
+
 ```
 kubectl create secret generic provider-url \
 --from-literal=address=<slack-webhook> \
@@ -74,6 +79,19 @@ Encrypt file
 sops --encrypt --in-place clusters/my-clusters/notifications/secret.yaml
 ```
 
+- Create Alerts and Provider
+```sh
+flux create alert flux-system \
+--provider-ref slack \
+--event-source "GitRepository/*" \
+--event-source "OCIRepository/*" \
+--event-source "Kustomization/*" \
+--event-source "HelmRepository/*" \
+--export >> ./clusters/my-clusters/notifications/alert.yaml
+
+flux create alert-provider slack --type slack --secret-ref provider-url --export \
+>> ./clusters/my-clusters/notifications/provider.yaml
+```
 
 TODOS:
 - export cluster name and GCP service account name
