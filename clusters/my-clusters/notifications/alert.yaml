@@ -15,5 +15,5 @@ spec:
   - kind: HelmRepository
     name: '*'
   providerRef:
-    name: slack
+    name: slack00ess
 
