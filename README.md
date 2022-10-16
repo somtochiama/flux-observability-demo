@@ -158,6 +158,8 @@ flux create alert commit-status --provider-ref github \
 --event-source "Kustomization/flux-system" \
 --export > ./clusters/my-clusters/notifications/commitstatus.yaml
 
-flux create alert-provider github --type github --secret-ref github-token --export \
+flux create alert-provider github \
+--address https://github.com/somtochiama/test-demo \
+--type github --secret-ref github-token --export \
 >> ./clusters/my-clusters/notifications/commitstatus.yaml
 ```
