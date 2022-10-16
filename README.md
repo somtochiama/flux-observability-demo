@@ -177,3 +177,17 @@ flux create kustomization kube-prometheus-stack \
   --decryption-provider=sops \
   --wait --export >> clusters/my-clusters/infra.yaml
 ```
+
+Create `monitoring config`:
+
+```
+flux create kustomization monitoring-config \
+--depends-on=kube-prometheus-stack \
+--interval=1h \
+--prune=true \
+--source=flux-system \
+--path="./infra/monitoring-config" \
+--health-check-timeout=1m \
+--wait --export >> ./clusters/my-clusters/infra.yaml
+```
+
