@@ -31,6 +31,9 @@ spec:
     - name: severity
       regex: false
       value: page
+    - name: alertname
+      matchType: ~=
+      value: ReconciliationFailure
   receivers:
   - name: 'slack'
     slackConfigs:
