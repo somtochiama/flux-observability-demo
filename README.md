@@ -174,5 +174,6 @@ flux create kustomization kube-prometheus-stack \
   --source=flux-system \
   --path="./infra/kube-prometheus-stack" \
   --health-check-timeout=5m \
+  --decryption-provider=sops \
   --wait --export >> clusters/my-clusters/infra.yaml
 ```

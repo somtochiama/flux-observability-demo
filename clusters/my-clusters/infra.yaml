@@ -5,6 +5,8 @@ metadata:
   name: kube-prometheus-stack
   namespace: flux-system
 spec:
+  decryption:
+    provider: sops
   interval: 1h0m0s
   path: ./infra/kube-prometheus-stack
   prune: true
