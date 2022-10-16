@@ -18,7 +18,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h0m0s
-  path: ./manifests/monitoring/monitoring-config
+  path: ./manifests/monitoring/monitoring-configxx
   prune: true
   sourceRef:
     kind: GitRepository
