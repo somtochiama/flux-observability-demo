@@ -1,0 +1,43 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      version: "35.x"
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      interval: 60m
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  valuesFrom:
+    - kind: Secret
+      name: slack-url
+      valuesKey: address
+      targetPath: alertmanager.config.global.slack_api_url
+  # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+  values:
+    alertmanager:
+      enabled: true
+      alertmanagerSpec:
+        alertmanagerConfigSelector:
+          matchLabels:
+            release: kube-prometheus-stack
+    prometheus:
+      prometheusSpec:
+        retention: 24h
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+        podMonitorNamespaceSelector: {}
+        podMonitorSelector:
+          matchLabels:
+            app.kubernetes.io/component: monitoring

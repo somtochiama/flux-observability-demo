@@ -163,3 +163,16 @@ flux create alert-provider github \
 --type github --secret-ref github-token --export \
 >> ./clusters/my-clusters/notifications/commitstatus.yaml
 ```
+
+## Kube Prometheus Stack
+Create Kustomization for `infra/monitoring`
+
+```
+flux create kustomization kube-prometheus-stack \
+  --interval=1h \
+  --prune \
+  --source=flux-system \
+  --path="./infra/kube-prometheus-stack" \
+  --health-check-timeout=5m \
+  --wait --export >> clusters/my-clusters/infra.yaml
+```
