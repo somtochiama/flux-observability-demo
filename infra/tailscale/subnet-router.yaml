@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tailscale
+  name: subnet-router
+  namespace: tailscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tailscale
+  template:
+    metadata:
+      labels:
+        app: tailscale
+    spec:
+      containers:
+      - env:
+        - name: TS_KUBE_SECRET
+          value: tailscale-auth
+        - name: USERSPACE
+          value: "true"
+        - name: TS_AUTH_KEY
+          valueFrom:
+            secretKeyRef:
+              key: AUTH_KEY
+              name: tailscale-auth
+              optional: true
+        - name: TS_ROUTES
+          value: 10.127.240.0/20,10.124.0.0/14
+        image: ghcr.io/tailscale/tailscale:latest
+        imagePullPolicy: Always
+        name: tailscale
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+      serviceAccountName: tailscale

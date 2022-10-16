@@ -191,3 +191,22 @@ flux create kustomization monitoring-config \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
 
+Setup Tailscale
+1. Create a reusuable key for tailscale
+
+```
+kubectl create secret generic tailscale-auth \
+--from-literal=AUTH_KEY=$TAILSCALE_KEY \
+--dry-run=client -oyaml > ./infra/tailscale/secret.yaml
+```
+
+Create Tailscale something
+```
+flux create kustomization tailscale \
+--interval=10m0s \
+--prune=true \
+--source=flux-system \
+--decryption-provider=sops \
+--path="./infra/tailscale" \
+--wait --export >> ./clusters/my-clusters/infra.yaml
+```
