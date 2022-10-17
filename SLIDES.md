@@ -82,15 +82,8 @@ kubectl create secret generic -n flux-system slack-url \
 
 2. Create sops configuration yaml for encyption
 
-Export Keyvault URL
-```
-export KMS_ID=$(terraform output kms_key_id)
-```
-
-3. Create `.sops.yaml` file
-
-```
-cat <<EOF > ../../test-demo/.sops.yaml
+```sh
+cat <<EOF > .sops.yaml
  creation_rules:
  - path_regex: .*.yaml
    encrypted_regex: ^(data|stringData)$
@@ -131,13 +124,13 @@ Create an app so that the controller can notify about it
 flux create source oci podinfo \
   --url=oci://ghcr.io/stefanprodan/manifests/podinfo \
   --tag=6.1.6 \
-  --interval=10m --export >> ./clusters/my-clusters/notification/apps.yaml
+  --interval=10m --export >> ./clusters/my-clusters/apps.yaml
 
 flux create kustomization podinfo \
   --source=OCIRepository/podinfo \
   --target-namespace=default \
   --prune=true \
-  --interval=5m --export >> ./clusters/my-clusters/notification/apps.yaml
+  --interval=5m --export >> ./clusters/my-clusters/apps.yaml
 ```
 
 ---
