@@ -10,6 +10,8 @@ Create terraform infrastructure
 cd terraform
 terraform init
 terraform apply
+
+export KMS_ID=$(terraw output kms_key_id)
 ```
 
 - Connect to created cluster
@@ -44,7 +46,7 @@ patchesStrategicMerge:
     name: kustomize-controller
     namespace: flux-system
     annotations:
-      iam.gke.io/gcp-service-account: <iam-service-account>@<PROJECT_ID>.iam.gserviceaccount.com
+      iam.gke.io/gcp-service-account: flux-gitops@dx-somtoxhi.iam.gserviceaccount.com
 - |-
   apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
   kind: Kustomization
@@ -68,7 +70,7 @@ gc -m "configure ks" && git push
 1. Create Slack Webhook URL and a secret containing URL
 
 Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
-https://testflux.slack.com/services/B041D3SPU2W
+[Test Flux channel](https://testflux.slack.com/services/B041D3SPU2W).
 
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
