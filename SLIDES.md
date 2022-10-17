@@ -120,11 +120,11 @@ flux create alert-provider slack --type slack --secret-ref slack-url --export \
 
 Create an app so that the controller can notify about it 
 
-```
+```sh
 flux create source oci podinfo \
   --url=oci://ghcr.io/stefanprodan/manifests/podinfo \
   --tag=6.1.6 \
-  --interval=10m --export >> ./clusters/my-clusters/apps.yaml
+  --interval=10m --export > ./clusters/my-clusters/apps.yaml
 
 flux create kustomization podinfo \
   --source=OCIRepository/podinfo \
