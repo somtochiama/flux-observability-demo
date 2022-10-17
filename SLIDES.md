@@ -75,6 +75,8 @@ Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
 ```
+mkdir -p ./clusters/my-clusters/notifications
+
 kubectl create secret generic -n flux-system slack-url \
 --from-literal=address=<slack-webhook> \
 --dry-run=client -oyaml > ./clusters/my-clusters/notifications/secret.yaml
@@ -139,8 +141,16 @@ flux create kustomization podinfo \
 
 Get Flux to reconcile immediately we do a git push
 
-1. Create a LoadBalancer service:
+Create a LoadBalancer service:
+
+```sh
+mkdir -p ./clusters/my-clusters/webhook
 ```
+
+Create LoadBalancer Service:
+
+```sh
+cat <<EOF > ./clusters/my-clusters/webhook/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -155,9 +165,11 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 9292
+EOF
 ```
 
-Generate random token for webhook receiver:
+- Generate random token for webhook receiver:
+
 ```sh
 TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
 echo $TOKEN
@@ -165,8 +177,13 @@ echo $TOKEN
 
 Create a secret with the token and encrypt it (Always encrypt your secrets before pushing to git!)
 ```sh
-kubectl -n flux-system create secret generic webhook-token \	
+kubectl -n flux-system create secret generic webhook-token \
 --from-literal=token=$TOKEN --dry-run=client -oyaml >> ./clusters/my-clusters/webhook/secret.yaml
+```
+
+We always encrypt our secrets!
+```
+sops --encrypt --in-place clusters/my-clusters/webhook/secret.yaml
 ```
 
 ---
