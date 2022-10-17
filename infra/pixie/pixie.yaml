@@ -22,7 +22,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: "35.x"
       chart: pixie-operator-chart
       sourceRef:
         kind: HelmRepository
