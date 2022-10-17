@@ -250,6 +250,7 @@ Notes:
 - Start with a fresh cluster
 - export all needed secret - flux, tailscale, pixie
 - Delete key ring from UI in GCP
+- cd into terraform before exporting KeyVault
 
 
 For kind:
