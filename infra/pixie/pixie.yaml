@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       version: "35.x"
-      chart: kube-prometheus-stack
+      chart: pixie-operator-chart
       sourceRef:
         kind: HelmRepository
         name: pixie-operator
