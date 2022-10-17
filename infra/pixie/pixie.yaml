@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Namsepace
+metadata:
+  names: pl
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: pixie-operator
+  namespace: pl
+spec:
+  interval: 120m
+  url: https://pixie-operator-charts.storage.googleapis.com
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: pixie
+  namespace: pl
+spec:
+  interval: 5m
+  chart:
+    spec:
+      version: "35.x"
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      interval: 60m
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  valuesFrom:
+    - kind: Secret
+      name: px-deploy-key
+      valuesKey: DEPLOY_KEY
+      targetPath: deployKey
+  values:
+      pemMemoryLimit: 1Gi

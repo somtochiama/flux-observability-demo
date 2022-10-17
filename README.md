@@ -210,3 +210,10 @@ flux create kustomization tailscale \
 --path="./infra/tailscale" \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
+
+## Pixie
+
+Create deploy key
+```
+export PX_DEPLOY_KEY=$(px deploy-key create)
+```

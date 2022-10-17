@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+    DEPLOY_KEY: ENC[AES256_GCM,data:bk/JcLCl2/OwoNk1SKuwI6OUfKWYR3PUNblagUN8tC8Ldg892pLuzEUUouZkm9opYm1fDrCWxD+86f7w,iv:x2rBwdC/Jf/Bdb2DQMHPu0MCF+heBBW3OlclaPN+xQQ=,tag:CTAQAs8Uy+vKUJ/uyGv3zA==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: px-deploy-key
+sops:
+    kms: []
+    gcp_kms:
+    -   resource_id: projects/dx-somtoxhi/locations/global/keyRings/sops-demo/cryptoKeys/sops-demo-key
+        created_at: '2022-10-17T01:34:55Z'
+        enc: CiQACBphu5CWTaE3QnpyOZPptUB/tN1FrTSTE1V3PwBgyKI0bwkSSADoLU0UfmW3rv6+JGjK9522HXYbcl0IHP0BCJWM+6b0bOEu4+zdz8bVgmV1SiY9q7EVZEQl+K5I4C55f7JBaReBSSJZbHPKdw==
+    azure_kv: []
+    hc_vault: []
+    lastmodified: '2022-10-17T01:34:56Z'
+    mac: ENC[AES256_GCM,data:ciT75t9GE8m1fuLumb8RLNy/U5HCUHXZHX/eM7SgrsYf6qGxkNT9nUdBseHemnFG+lqP2CHvYm8VEbUZbbLLpESmvzejM2jbAw9VpQdXZGCqJ1V+emBUrr5LGTTYsvGJgzaeYzCL50b4ef8JO8lqhHmIdOqPkMY6UXo5EZdgAoQ=,iv:hG/t03yt02QbUftAbJO8H2RZXjRLkTAKtgZ0mNh+yYo=,tag:j1n3eqYLzIyycH5Ze2rlpQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.6.1
