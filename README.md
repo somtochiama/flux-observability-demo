@@ -246,7 +246,7 @@ Create deploy key
 export PX_DEPLOY_KEY=$(px deploy-key create)
 ```
 
-Note!!
+Notes:
 - Start with a fresh cluster
 - export all needed secret - flux, tailscale, pixie
 - Delete key ring from UI in GCP
