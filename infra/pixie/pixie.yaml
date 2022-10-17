@@ -26,7 +26,7 @@ spec:
       chart: kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community
+        name: pixie-operator
       interval: 60m
   install:
     crds: Create
