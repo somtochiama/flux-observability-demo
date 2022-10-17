@@ -17,20 +17,25 @@ terraform apply
 gcloud container clusters get-credentials flux-observability --zone us-central1-c --project dx-somtoxhi
 ```
 
+---
+
 ## Bootstrap Flux
 
-- Bootstrap Flux on created cluster
-Note: Talk a bit about bootstrapp while it is 
+Bootstrap Flux on created cluster
 
 ```sh
 export GITHUB_OWNER=somtochiama
 export GITHUB_TOKEN=<GITHUB_TOKEN>
-flux bootstrap github --owner $GITHUB_OWNER --repository test-demo --path=clusters/my-clusters
+flux bootstrap github --owner $GITHUB_OWNER --repository flux-observability  --path=clusters/my-clusters
 ```
 
-- Configure Kustomization to decrypt secrets
+---
+
+## Configure Kustomization to decrypt secrets
+
 Customize Flux manifest and annotate Kustomize controller with the service account
-```
+
+```yaml
 patchesStrategicMerge:
 - |-
   apiVersion: v1
@@ -52,16 +57,21 @@ patchesStrategicMerge:
     decryption:
       provider: sops
 ```
+
 Push changes 
 ```sh
 gc -m "configure ks" && git push
 ```
 
-## Create Slack Wenhook URL 
-Note: Add providers
+---
 
-- Create Slack Webhook URL and a secret containing URL
+## Create Slack Wenhook URL 
+
+1. Create Slack Webhook URL and a secret containing URL
+
 Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
+https://testflux.slack.com/services/B041D3SPU2W
+
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
 ```
@@ -70,13 +80,14 @@ kubectl create secret generic slack-url \
 --dry-run=client -oyaml > ./clusters/my-clusters/notifications/secret.yaml
 ```
 
-- Create sops configuration yaml for encyption
+2. Create sops configuration yaml for encyption
+
 Export Keyvault URL
 ```
 export KMS_ID=$(terraform output kms_key_id)
 ```
 
-Create `.sops.yaml` file
+3. Create `.sops.yaml` file
 
 ```
 cat <<EOF > ../../test-demo/.sops.yaml
@@ -87,10 +98,12 @@ cat <<EOF > ../../test-demo/.sops.yaml
 EOF
 ```
 
-Encrypt file
+4. Encrypt file
 ```
 sops --encrypt --in-place clusters/my-clusters/notifications/secret.yaml
 ```
+
+---
 
 ## Create Alerts and Provider
 ```sh
@@ -106,8 +119,14 @@ flux create alert-provider slack --type slack --secret-ref slack-url --export \
 >> ./clusters/my-clusters/notifications/provider.yaml
 ```
 
+**git push!** 
+
+---
+
 ## Deploy app and get notifications
-6. Create an app so that the controller can notify about it 
+
+Create an app so that the controller can notify about it 
+
 ```
 flux create source oci podinfo \
   --url=oci://ghcr.io/stefanprodan/manifests/podinfo \
@@ -121,9 +140,13 @@ flux create kustomization podinfo \
   --interval=5m --export >> ./clusters/my-clusters/notification/apps.yaml
 ```
 
-- Webhook receivers: Get Flux to reconcile immediately we do a git push
+---
 
-Create a LoadBalancer service:
+## Webhook receivers
+
+Get Flux to reconcile immediately we do a git push
+
+1. Create a LoadBalancer service:
 ```
 apiVersion: v1
 kind: Service
@@ -145,12 +168,18 @@ Generate random token for webhook receiver:
 ```sh
 TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
 echo $TOKEN
+```
 
+Create a secret with the token and encrypt it (Always encrypt your secrets before pushing to git!)
+```sh
 kubectl -n flux-system create secret generic webhook-token \	
 --from-literal=token=$TOKEN --dry-run=client -oyaml >> ./clusters/my-clusters/webhook/secret.yaml
 ```
 
-Create webhook receiver
+---
+
+## Create webhook receiver yaml
+
 ```sh
 flux create receiver github-receiver \
     --type github \
@@ -160,11 +189,15 @@ flux create receiver github-receiver \
     --resource GitRepository/flux-system \
     --export >>  ./clusters/my-clusters/webhook/receiver.yaml
 ```
-** Commit and push
+**Commit and push!**
 
-Navigate to repository settings and put in payload url + token
-Payload URL - `https://<ServiceURL>/hook/bed6d00b5555b1603e1f59b94d7fdbca58089cb5663633fb83f2815dc626d92b
+
+Navigate to Github repository Webhook settings and put in payload url + token
+
+Payload URL - `https://<ServiceURL>/<receiver-url>
 Token - `echo $TOKEN`
+
+---
 
 ## Github Commit Status
 
@@ -175,9 +208,13 @@ export GH_PAT_TOKEN=<TOKEN>
 
 kubectl -n flux-system create secret generic github-token \            
 --from-literal=token=$GH_PAT_TOKEN --dry-run=client -oyaml > ./clusters/my-clusters/notifications/token.yaml
+
+sops --encrypt --in-place clusters/my-clusters/notifications/token.yaml
 ```
 
-Create Provider
+---
+
+## Create Alert and Github Provider
 ```
 flux create alert commit-status --provider-ref github \
 --event-source "Kustomization/flux-system" \
@@ -188,6 +225,11 @@ flux create alert-provider github \
 --type github --secret-ref github-token --export \
 >> ./clusters/my-clusters/notifications/commitstatus.yaml
 ```
+
+**commit and push!**
+**check github for the status check**
+
+---
 
 ## Kube Prometheus Stack
 
@@ -206,6 +248,8 @@ flux create kustomization kube-prometheus-stack \
   --wait --export >> clusters/my-clusters/infra.yaml
 ```
 
+---
+
 Create `monitoring config`:
 
 ```
@@ -219,7 +263,12 @@ flux create kustomization monitoring-config \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
 
-Setup Tailscale
+**Check all pods are running!**
+
+---
+
+## Setup Tailscale Subnet router
+
 1. Create a reusuable key for tailscale
 
 ```
@@ -246,16 +295,13 @@ Create deploy key
 export PX_DEPLOY_KEY=$(px deploy-key create)
 ```
 
-Note!!
-- Start with a fresh cluster
-- export all needed secret - flux, tailscale, pixie
-- Delete key ring from UI in GCP
-
-
-For kind:
-
-gpg --export-secret-keys --armor "${KEY_FP}" |
-kubectl create secret generic sops-gpg \
---namespace=flux-system \
---from-file=sops.asc=/dev/stdin
-export KEY_FP=22FE5F30631096FFEE7F1E9B40803ABF3FE40332
+Install Pixie
+```
+flux create kustomization tailscale \
+--interval=10m0s \
+--prune=true \
+--source=flux-system \
+--decryption-provider=sops \
+--path="./infra/tailscale" \
+--wait --export >> ./clusters/my-clusters/infra.yaml
+```
