@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: commit-status
+  namespace: flux-system
+spec:
+  eventSources:
+  - kind: Kustomization
+    name: flux-system
+  providerRef:
+    name: github
+
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: github
+  namespace: flux-system
+spec:
+  address: https://github.com/somtochiama/test-demo
+  secretRef:
+    name: github-token
+  type: github
+

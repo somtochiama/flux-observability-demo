@@ -202,9 +202,11 @@ flux create receiver github-receiver \
 **Commit and push!**
 
 
-Navigate to Github repository Webhook settings and put in payload url + token
+Navigate to Github repository [Webhook settings](https://github.com/somtochiama/test-demo/settings/hooks) and put in payload url + token
 
-Payload URL - `https://<ServiceURL>/<receiver-url>
+
+Payload URL - `http://<ServiceURL>/<receiver-url>
+Payload URL - `http://34.68.70.13/hook/819f4dd5e4cbace426f42bf7b15fa5480962c922278ec1dc51439237f3db57f7
 Token - `echo $TOKEN`
 
 ---
@@ -216,7 +218,7 @@ Create a Github PAT with repo:status permission
 ```sh
 export GH_PAT_TOKEN=<TOKEN>
 
-kubectl -n flux-system create secret generic github-token \            
+kubectl -n flux-system create secret generic github-token \
 --from-literal=token=$GH_PAT_TOKEN --dry-run=client -oyaml > ./clusters/my-clusters/notifications/token.yaml
 
 sops --encrypt --in-place clusters/my-clusters/notifications/token.yaml
