@@ -75,7 +75,7 @@ Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
 ```
-kubectl create secret generic slack-url \
+kubectl create secret generic -n flux-system slack-url \
 --from-literal=address=<slack-webhook> \
 --dry-run=client -oyaml > ./clusters/my-clusters/notifications/secret.yaml
 ```
