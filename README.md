@@ -219,10 +219,12 @@ flux create kustomization kube-prometheus-stack \
   --wait --export >> clusters/my-clusters/infra.yaml
 ```
 
+**git push**
+
 Create `monitoring config`:
 
 ```
-flux create kustomization monitoring-config \
+flux create kustomization flux-config \
 --depends-on=kube-prometheus-stack \
 --interval=1h \
 --prune=true \

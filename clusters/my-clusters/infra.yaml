@@ -20,7 +20,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: monitoring-config
+  name: flux-config
   namespace: flux-system
 spec:
   dependsOn:

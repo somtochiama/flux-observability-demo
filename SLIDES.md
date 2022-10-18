@@ -289,8 +289,11 @@ Encrypt!
 sops --encrypt --in-place infra/monitoring-config/secret.yaml
 ```
 
-```
-flux create kustomization monitoring-config \
+---
+
+
+```sh
+flux create kustomization flux-config \
 --depends-on=kube-prometheus-stack \
 --interval=1h \
 --prune=true \
