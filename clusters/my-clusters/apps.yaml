@@ -19,10 +19,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  # path: ./
+  path: ./
   prune: true
-  # sourceRef:
-  #   kind: OCIRepository
-  #   name: podinfo
+  sourceRef:
+    kind: OCIRepository
+    name: podinfo
   targetNamespace: default
 
