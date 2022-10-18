@@ -65,7 +65,7 @@ Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
 ```
-kubectl create secret generic slack-url \
+kubectl create secret generic -n flux-system slack-url \
 --from-literal=address=<slack-webhook> \
 --dry-run=client -oyaml > ./clusters/my-clusters/notifications/secret.yaml
 ```
@@ -193,9 +193,22 @@ flux create alert-provider github \
 
 We have the required YAML files in `infra/monitoring`
 
+We would have slack url in monitoring
+
+```sh
+kubectl create secret generic -n flux-system slack-url \
+--from-literal=address=$SLACK_URL \
+--dry-run=client -oyaml > ./infra/kube-prometheus-stack/secret.yaml
+```
+
+Of course, encryption
+```
+sops --encrypt --in-place infra/kube-prometheus-stack/secret.yaml
+```
+
 Create Kustomization for `infra/monitoring`
 
-```
+```sh
 flux create kustomization kube-prometheus-stack \
   --interval=1h \
   --prune \
