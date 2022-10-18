@@ -317,6 +317,11 @@ kubectl create secret generic tailscale-auth \
 --dry-run=client -oyaml > ./infra/tailscale/secret.yaml
 ```
 
+Encrypt!
+```
+sops --encrypt --in-place infra/tailscale/secret.yaml
+```
+
 Create Tailscale something
 ```
 flux create kustomization tailscale \
@@ -328,20 +333,34 @@ flux create kustomization tailscale \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
 
+---
+
 ## Pixie
 
 Create deploy key
-```
+```sh
 export PX_DEPLOY_KEY=$(px deploy-key create)
+
+kubectl create secret generic px-deploy-key \
+--from-literal=AUTH_KEY=$PX_DEPLOY_KEY \
+--dry-run=client -oyaml > ./infra/pixie/secret.yaml
 ```
 
-Install Pixie
+Encrypt!
 ```
-flux create kustomization tailscale \
+sops --encrypt --in-place infra/pixie/secret.yaml
+```
+
+---
+
+## Install Pixie
+
+```sh
+flux create kustomization pixie \
 --interval=10m0s \
 --prune=true \
 --source=flux-system \
 --decryption-provider=sops \
---path="./infra/tailscale" \
+--path="./infra/pixie" \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
