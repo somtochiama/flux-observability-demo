@@ -341,7 +341,7 @@ Create deploy key
 ```sh
 export PX_DEPLOY_KEY=$(px deploy-key create)
 
-kubectl create secret generic px-deploy-key \
+kubectl create secret generic -n pl px-deploy-key \
 --from-literal=AUTH_KEY=$PX_DEPLOY_KEY \
 --dry-run=client -oyaml > ./infra/pixie/secret.yaml
 ```
