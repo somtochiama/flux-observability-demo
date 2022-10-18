@@ -243,6 +243,11 @@ kubectl create secret generic tailscale-auth \
 --dry-run=client -oyaml > ./infra/tailscale/secret.yaml
 ```
 
+Encrypt!
+```
+sops --encrypt --in-place  ./infra/tailscale/secret.yaml
+```
+
 Create Tailscale something
 ```
 flux create kustomization tailscale \

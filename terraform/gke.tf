@@ -34,7 +34,7 @@ resource "google_container_node_pool" "secondary_node" {
   name       = "node-pool"
   location   = data.google_client_config.this.region 
   cluster    = google_container_cluster.primary.name
-  node_count = 2
+  node_count = 3
 
   node_config {
     machine_type = "e2-medium"
