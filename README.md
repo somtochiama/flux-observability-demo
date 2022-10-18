@@ -307,3 +307,7 @@ kubectl create secret generic sops-gpg \
 --namespace=flux-system \
 --from-file=sops.asc=/dev/stdin
 export KEY_FP=22FE5F30631096FFEE7F1E9B40803ABF3FE40332
+
+Notes:
+Correct namespace on secret
+Add notifications for helm releases
