@@ -259,11 +259,38 @@ flux create kustomization tailscale \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
 
+Login in to [tailscale dashboard](https://login.tailscale.com/admin/machines) to approve routes: 
+
+if we add kube-dns as a host, Now we can use the service url
+- http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+- http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local
+
 ## Pixie
 
-Create deploy key
+Create secret containing deploy key
 ```
 export PX_DEPLOY_KEY=$(px deploy-key create)
+```
+
+```
+kubectl create secret generic tailscale-auth \
+--from-literal=AUTH_KEY=$TAILSCALE_KEY \
+--dry-run=client -oyaml > ./infra/tailscale/secret.yaml
+```
+
+Encrypt!
+```
+sops --encrypt --in-place  ./infra/tailscale/secret.yaml
+```
+
+```
+flux create kustomization pixie \
+--interval=10m0s \
+--prune=true \
+--source=flux-system \
+--decryption-provider=sops \
+--path="./infra/pixie" \
+--wait --export >> ./clusters/my-clusters/infra.yaml
 ```
 
 Notes:
