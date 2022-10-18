@@ -342,7 +342,7 @@ Create deploy key
 export PX_DEPLOY_KEY=$(px deploy-key create)
 
 kubectl create secret generic -n pl px-deploy-key \
---from-literal=AUTH_KEY=$PX_DEPLOY_KEY \
+--from-literal=DEPLOY_KEY=$PX_DEPLOY_KEY \
 --dry-run=client -oyaml > ./infra/pixie/secret.yaml
 ```
 
@@ -364,3 +364,9 @@ flux create kustomization pixie \
 --path="./infra/pixie" \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
+
+---
+
+## Visualize data from Pixie
+
+Use Pixie [community cloud](work.withpixie.ai)
