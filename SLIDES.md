@@ -280,8 +280,13 @@ Create `monitoring config`:
 
 ```
 kubectl create secret generic -n monitoring slack-url \
---from-literal=address=<slack-webhook> \
+--from-literal=address=$SLACK_URL \
 --dry-run=client -oyaml > ./infra/monitoring-config/secret.yaml
+```
+
+Encrypt!
+```
+sops --encrypt --in-place infra/monitoring-config/secret.yaml
 ```
 
 ```
