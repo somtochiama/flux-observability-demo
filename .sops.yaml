@@ -1,4 +1,4 @@
 creation_rules:
-      - path_regex: .*.yaml
-        encrypted_regex: ^(data|stringData)$
-        gcp_kms: "projects/dx-somtoxhi/locations/global/keyRings/sops-demos/cryptoKeys/sops-demo-key"
+  - path_regex: .*.yaml
+    encrypted_regex: ^(data|stringData)$
+    gcp_kms: "projects/dx-somtoxhi/locations/global/keyRings/sops-demos/cryptoKeys/sops-demo-key"
