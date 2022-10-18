@@ -254,7 +254,7 @@ We have the required YAML files in `infra/monitoring`
 We would have slack url in monitoring
 
 ```sh
-kubectl create secret generic -n flux-system slack-url \
+kubectl create secret generic -n monitoring slack-url \
 --from-literal=address=$SLACK_URL \
 --dry-run=client -oyaml > ./infra/kube-prometheus-stack/secret.yaml
 ```
