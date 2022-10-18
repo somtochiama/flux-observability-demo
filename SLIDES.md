@@ -16,7 +16,7 @@ export KMS_ID=$(terraw output kms_key_id)
 
 - Connect to created cluster
 ```sh
-gcloud container clusters get-credentials flux-observability --zone us-central1-c --project dx-somtoxhi
+gcloud container clusters get-credentials flux-observability-two --zone us-central1-c --project dx-somtoxhi
 ```
 
 ---
@@ -245,6 +245,10 @@ flux create alert-provider github \
 
 ## Kube Prometheus Stack
 
+The prometheus-operator works with CRDS
+
+(Tutorial Link)[https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#related-resources]
+
 We have the required YAML files in `infra/monitoring`
 
 We would have slack url in monitoring
@@ -369,4 +373,4 @@ flux create kustomization pixie \
 
 ## Visualize data from Pixie
 
-Use Pixie [community cloud](work.withpixie.ai)
+Use Pixie [community cloud](https://work.withpixie.ai)
