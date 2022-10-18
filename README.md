@@ -312,3 +312,4 @@ Notes:
 Correct namespace on secret
 Add notifications for helm releases
 Add sourceignore for flux repo
+Update service and pod range(and tell audience too!)

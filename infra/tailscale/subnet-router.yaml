@@ -28,7 +28,7 @@ spec:
               name: tailscale-auth
               optional: true
         - name: TS_ROUTES
-          value: 10.127.240.0/20,10.124.0.0/14
+          value: 10.56.0.0/14,10.60.0.0/20
         image: ghcr.io/tailscale/tailscale:latest
         imagePullPolicy: Always
         name: tailscale
