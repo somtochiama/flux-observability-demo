@@ -28,7 +28,7 @@ spec:
               name: tailscale-auth
               optional: true
         - name: TS_ROUTES
-          value: 10.56.0.0/14,10.60.0.0/20
+          value: ${subnet_routes}
         image: ghcr.io/tailscale/tailscale:latest
         imagePullPolicy: Always
         name: tailscale
