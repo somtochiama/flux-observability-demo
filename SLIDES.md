@@ -11,7 +11,7 @@ cd terraform
 terraform init
 terraform apply
 
-export KMS_ID=$(terraw output kms_key_id)
+export KMS_ID=$(terraform output kms_key_id)
 ```
 
 - Connect to created cluster
@@ -28,7 +28,12 @@ Bootstrap Flux on created cluster
 ```sh
 export GITHUB_OWNER=somtochiama
 export GITHUB_TOKEN=<GITHUB_TOKEN>
-flux bootstrap github --owner $GITHUB_OWNER --repository flux-observability  --path=clusters/my-clusters
+flux bootstrap github --owner $GITHUB_OWNER --repository flux-observability-demo  --path=clusters
+```
+
+Pull the most recent commit
+```
+git pull
 ```
 
 ---
