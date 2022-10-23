@@ -184,11 +184,11 @@ echo $TOKEN
 Create a secret with the token and encrypt it (Always encrypt your secrets before pushing to git!)
 ```sh
 kubectl -n flux-system create secret generic webhook-token \
---from-literal=token=$TOKEN --dry-run=client -oyaml >> ./clusters/my-clusters/webhook/secret.yaml
+--from-literal=token=$TOKEN --dry-run=client -oyaml > ./clusters/my-clusters/webhook/secret.yaml
 ```
 
 We always encrypt our secrets!
-```
+```sh
 sops --encrypt --in-place clusters/my-clusters/webhook/secret.yaml
 ```
 

@@ -1,0 +1,18 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Receiver
+metadata:
+  name: github-receiver
+  namespace: flux-system
+spec:
+  events:
+  - ping
+  - push
+  - star
+  resources:
+  - kind: GitRepository
+    name: flux-system
+  secretRef:
+    name: webhook-token
+  type: github
+
