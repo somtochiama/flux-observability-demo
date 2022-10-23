@@ -40,7 +40,8 @@ git pull
 
 ## Configure Kustomization to decrypt secrets
 
-Customize Flux manifest and annotate Kustomize controller with the service account
+Customize Flux manifest and annotate Kustomize controller with the service account by editing
+the `kustomization.yaml`.
 
 ```yaml
 patchesStrategicMerge:
