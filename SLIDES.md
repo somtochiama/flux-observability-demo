@@ -81,11 +81,11 @@ Go to [Slack Webhooks](https://api.slack.com/messaging/webhooks).
 Note: Pushing the URL to git causes Slack to invalidate the webhook url. So we don't use the Provider's `spec.address`
 
 ```
-mkdir -p ./clusters/my-clusters/notifications
+mkdir -p ./clusters/notifications
 
 kubectl create secret generic -n flux-system slack-url \
---from-literal=address=<slack-webhook> \
---dry-run=client -oyaml > ./clusters/my-clusters/notifications/secret.yaml
+--from-literal=address=$SLACK_URL \
+--dry-run=client -oyaml > ./clusters/notifications/secret.yaml
 ```
 
 2. Create sops configuration yaml for encyption
@@ -100,8 +100,8 @@ EOF
 ```
 
 4. Encrypt file
-```
-sops --encrypt --in-place clusters/my-clusters/notifications/secret.yaml
+```sh
+sops --encrypt --in-place clusters/notifications/secret.yaml
 ```
 
 ---
