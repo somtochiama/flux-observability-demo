@@ -211,8 +211,8 @@ flux create receiver github-receiver \
 Navigate to Github repository [Webhook settings](https://github.com/somtochiama/test-demo/settings/hooks) and put in payload url + token
 
 
-Payload URL - `http://<ServiceURL>/<receiver-url>
-Payload URL - `http://34.68.70.13/hook/819f4dd5e4cbace426f42bf7b15fa5480962c922278ec1dc51439237f3db57f7
+Payload URL - `http://34.67.111.197/hook/20ec8773b05f33154fb7ff9d84bc076268d7f547321768ae5ade1d673b16c247
+4d31bba5563aecaedacab1cac65a6efab27d4583
 Token - `echo $TOKEN`
 
 ---
