@@ -322,7 +322,7 @@ flux create kustomization flux-config \
 1. Create a reusuable key for tailscale
 
 ```
-kubectl create secret generic tailscale-auth \
+kubectl create secret generic -n tailscale tailscale-auth \
 --from-literal=AUTH_KEY=$TAILSCALE_KEY \
 --dry-run=client -oyaml > ./infra/tailscale/secret.yaml
 ```
