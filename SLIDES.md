@@ -332,7 +332,7 @@ Encrypt!
 sops --encrypt --in-place infra/tailscale/secret.yaml
 ```
 
-Create Tailscale something
+Install Tailscale
 ```
 flux create kustomization tailscale \
 --interval=10m0s \
@@ -342,6 +342,13 @@ flux create kustomization tailscale \
 --path="./infra/tailscale" \
 --wait --export >> ./clusters/my-clusters/infra.yaml
 ```
+
+---
+
+[Login](https://login.tailscale.com/admin/machines) to your tailscale dashboard and approve routes.
+
+Access prometheus and grafana with their cluster url
+http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
 
 ---
 
@@ -379,4 +386,5 @@ flux create kustomization pixie \
 
 ## Visualize data from Pixie
 
-Use Pixie [community cloud](https://work.withpixie.ai)
+Use Pixie [community cloud](https://work.withpixie.ai).
+You can also use the self-hosted version or the Pixie grafana plugin if you don't want to use the hosted version.
