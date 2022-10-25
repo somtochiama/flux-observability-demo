@@ -18,7 +18,7 @@ metadata:
   name: github
   namespace: flux-system
 spec:
-  address: https://github.com/somtochiama/test-demo
+  address: https://github.com/somtochiama/flux-observability-demo
   secretRef:
     name: github-token
   type: github
