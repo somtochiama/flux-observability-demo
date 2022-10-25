@@ -9,7 +9,7 @@ spec:
   provider: generic
   ref:
     tag: 6.1.6
-  url: oci://ghcr.io/stefanprodan/manifests/podinfo
+  url: oci://ghcr.io/stefanprodan/manifests/podinfoexx
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

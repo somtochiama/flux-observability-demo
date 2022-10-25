@@ -8,4 +8,3 @@ spec:
   secretRef:
     name: slack-url
   type: slack
-
