@@ -132,13 +132,13 @@ Create an app so that the controller can notify about it
 flux create source oci podinfo \
   --url=oci://ghcr.io/stefanprodan/manifests/podinfo \
   --tag=6.1.6 \
-  --interval=10m --export > ./clusters/my-clusters/apps.yaml
+  --interval=10m --export > ./clusters/apps.yaml
 
 flux create kustomization podinfo \
   --source=OCIRepository/podinfo \
   --target-namespace=default \
   --prune=true \
-  --interval=5m --export >> ./clusters/my-clusters/apps.yaml
+  --interval=5m --export >> ./clusters/apps.yaml
 ```
 
 ---

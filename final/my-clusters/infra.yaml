@@ -53,7 +53,7 @@ spec:
   wait: true
   postBuild:
     substitute:
-      subnet_routes: 10.56.0.0/14,10.60.0.0/20
+      subnet_routes: 10.68.0.0/14,10.71.240.0/20
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization

@@ -3,3 +3,22 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+patchesStrategicMerge:
+- |-
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: kustomize-controller
+    namespace: flux-system
+    annotations:
+      iam.gke.io/gcp-service-account: flux-gitops@dx-somtoxhi.iam.gserviceaccount.com
+- |-
+  apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+  kind: Kustomization
+  metadata:
+    name: flux-system
+    namespace: flux-system
+  spec:
+    decryption:
+      provider: sops
+
