@@ -386,5 +386,5 @@ flux create kustomization pixie \
 
 ## Visualize data from Pixie
 
-Use Pixie [community cloud](https://work.withpixie.ai).
+Use Pixie [community cloud](https://work2.withpixie.ai).
 You can also use the self-hosted version or the Pixie grafana plugin if you don't want to use the hosted version.
