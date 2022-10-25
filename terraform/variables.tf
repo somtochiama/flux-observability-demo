@@ -1,6 +1,6 @@
 variable "name" {
     type = string
-    default = "flux-observability"
+    default = "flux-observability-two"
 }
 
 variable "project" {
