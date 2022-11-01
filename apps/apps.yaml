@@ -18,10 +18,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  path: ./apps
+  path: ./
   prune: true
   sourceRef:
     kind: OCIRepository
     name: podinfo
-  targetNamespace: test-ns
+  targetNamespace: default
 
