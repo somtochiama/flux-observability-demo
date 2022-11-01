@@ -23,5 +23,5 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: podinfo
-  targetNamespace: default
+  targetNamespace: test-ns
 
