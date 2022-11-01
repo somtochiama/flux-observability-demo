@@ -18,7 +18,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  path: ./
+  path: ./apps
   prune: true
   sourceRef:
     kind: OCIRepository

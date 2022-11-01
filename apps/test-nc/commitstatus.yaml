@@ -20,6 +20,6 @@ metadata:
 spec:
   address: https://github.com/somtochiama/flux-observability-demo
   secretRef:
-    name: github-token
+    name: github-toke
   type: github
 
